@@ -113,6 +113,20 @@
       if (!displaySocket) createDisplaySocket(displayWebsocketUrl, displayRenderer, displayBinaryType);
       if (!gpsSocket) createGpsSocket(gpsWebsocketUrl);
       if (!touchScreenSocket) createTouchScreenSocket(touchScreenWebsocketUrl);
+
+    }
+    async function checkVideoStream() {
+      while (true) {
+        try {
+          await image.decode();
+        } catch {
+          let src = image.src;
+          image.src = "";
+          image.src = src;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
     }
 
 
@@ -128,6 +142,8 @@
         img.src = url;
         canvas.style.display = "none";
         displayRendererAdded = true;
+
+        checkVideoStream();
       }
 
       //displaySocket = new ReconnectingWebSocket(url, null, { binaryType: binaryType });

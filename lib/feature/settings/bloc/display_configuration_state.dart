@@ -11,15 +11,11 @@ class DisplayConfigurationStateSettingsFetched
   final DisplayResolutionModePreset lowResModePreset;
   final DisplayRendererType renderer;
   final bool isResponsive;
-  final bool isVariableRefresh;
-  final bool useVulkan;
 
   DisplayConfigurationStateSettingsFetched({
     required this.lowResModePreset,
     required this.renderer,
     required this.isResponsive,
-    required this.isVariableRefresh,
-    required this.useVulkan,
   });
 }
 

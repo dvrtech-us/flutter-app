@@ -42,26 +42,6 @@ class DisplaySettings extends SettingsSection {
               child: Text(
                   'Advanced setting, Tesla Android can automatically resize the virtual display when the browser window size changes. If you disable this option, the display aspect will be locked on the current value.'),
             ),
-            divider,
-            SettingsTile(
-                icon: Icons.refresh,
-                title: 'Variable refresh rate',
-                trailing: _variableRefreshSwitch(context, cubit, state)),
-            const Padding(
-              padding: EdgeInsets.all(TADimens.PADDING_S_VALUE),
-              child: Text(
-                  'Advanced setting, Tesla Android can drop duplicate frames based on what is happening on the Virtual Display.'),
-            ),
-            divider,
-            SettingsTile(
-                icon: Icons.image,
-                title: 'Vulkan backend for SKIA/HWUI',
-                trailing: _vulkanSwitch(context, cubit, state)),
-            const Padding(
-              padding: EdgeInsets.all(TADimens.PADDING_S_VALUE),
-              child: Text(
-                  'Advanced setting, Vulkan backend increases overall graphics performance but it is still considered experimental and can cause instability. Selection will be applied on next boot.'),
-            ),
             // divider,
             // SettingsTile(
             //     icon: Icons.texture,
@@ -86,24 +66,6 @@ class DisplaySettings extends SettingsSection {
         value: state.isResponsive,
         onChanged: (bool value) {
           cubit.setResponsiveness(value);
-        },
-      );
-    } else if (state is DisplayConfigurationStateSettingsUpdateInProgress ||
-        state is DisplayConfigurationStateLoading) {
-      return const CircularProgressIndicator();
-    } else if (state is DisplayConfigurationStateError) {
-      return const Text("Service error");
-    }
-    return const SizedBox.shrink();
-  }
-
-  Widget _variableRefreshSwitch(BuildContext context,
-      DisplayConfigurationCubit cubit, DisplayConfigurationState state) {
-    if (state is DisplayConfigurationStateSettingsFetched) {
-      return Switch(
-        value: state.isVariableRefresh,
-        onChanged: (bool value) {
-          cubit.setVariableRefresh(value);
         },
       );
     } else if (state is DisplayConfigurationStateSettingsUpdateInProgress ||
@@ -171,24 +133,6 @@ class DisplaySettings extends SettingsSection {
             child: Text(value.name()),
           );
         }).toList(),
-      );
-    } else if (state is DisplayConfigurationStateSettingsUpdateInProgress ||
-        state is DisplayConfigurationStateLoading) {
-      return const CircularProgressIndicator();
-    } else if (state is DisplayConfigurationStateError) {
-      return const Text("Service error");
-    }
-    return const SizedBox.shrink();
-  }
-
-  Widget _vulkanSwitch(BuildContext context,
-      DisplayConfigurationCubit cubit, DisplayConfigurationState state) {
-    if (state is DisplayConfigurationStateSettingsFetched) {
-      return Switch(
-        value: state.useVulkan,
-        onChanged: (bool value) {
-          cubit.setVulkanState(value);
-        },
       );
     } else if (state is DisplayConfigurationStateSettingsUpdateInProgress ||
         state is DisplayConfigurationStateLoading) {

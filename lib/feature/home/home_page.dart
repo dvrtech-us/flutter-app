@@ -26,37 +26,37 @@ class HomePage extends StatelessWidget {
             _onBackendConnectionLost(context);
           }
           return Scaffold(
+              backgroundColor: Colors.black,
               body: isBackendAccessible
                   ? Stack(
+                      alignment: Alignment.topCenter,
                       children: [
                         LayoutBuilder(builder: (context, constraints) {
                           BlocProvider.of<DisplayCubit>(context)
                               .onWindowSizeChanged(
                             Size(constraints.maxWidth, constraints.maxHeight),
                           );
-                          return Center(
-                            child: BlocBuilder<DisplayCubit, DisplayState>(
-                                builder: (context, state) {
-                              if (state is DisplayStateNormal) {
-                                return AspectRatio(
-                                  aspectRatio: state.adjustedSize.width /
-                                      state.adjustedSize.height,
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      DisplayView(type: state.rendererType),
-                                      PointerInterceptor(
-                                        child: TouchScreenView(
-                                            displaySize: state.adjustedSize),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                return const CircularProgressIndicator();
-                              }
-                            }),
-                          );
+                          return BlocBuilder<DisplayCubit, DisplayState>(
+                              builder: (context, state) {
+                            if (state is DisplayStateNormal) {
+                              return AspectRatio(
+                                aspectRatio: state.adjustedSize.width /
+                                    state.adjustedSize.height,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    DisplayView(type: state.rendererType),
+                                    PointerInterceptor(
+                                      child: TouchScreenView(
+                                          displaySize: state.adjustedSize),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          });
                         }),
                         const Positioned(
                             right: 0, top: 0, child: VersionRibbon())

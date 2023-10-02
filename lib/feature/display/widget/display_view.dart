@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:html';
 import 'dart:ui' as ui;
-
+import 'dart:js' as js;
 import 'package:flavor/flavor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +13,7 @@ import 'package:tesla_android/feature/display/cubit/display_state.dart';
 import 'package:tesla_android/feature/display/model/remote_display_state.dart';
 import 'package:tesla_android/feature/settings/bloc/audio_configuration_cubit.dart';
 import 'package:tesla_android/feature/settings/bloc/audio_configuration_state.dart';
+import 'package:tesla_android/utils.dart';
 
 class DisplayView extends StatefulWidget {
   final DisplayRendererType type;
@@ -32,6 +33,7 @@ class _IframeViewState extends State<DisplayView> with Logger {
   void initState() {
     super.initState();
     _iframeElement.src = _src;
+    _iframeElement.id = "displayIframe";
     _iframeElement.style.border = 'none';
 
     //ignore: undefined_prefixed_name
@@ -56,28 +58,27 @@ class _IframeViewState extends State<DisplayView> with Logger {
             onPlatformViewCreated: (_) {
               final Map<String, dynamic> config = {
                 'audioWebsocketUrl': flavor.getString("audioWebSocket")!,
-                'displayWebsocketUrl':
-                flavor.getString("displayWebSocket")!,
+                'displayWebsocketUrl': flavor.getString("displayWebSocket")!,
                 'gpsWebsocketUrl': flavor.getString("gpsWebSocket")!,
                 'touchScreenWebsocketUrl':
-                flavor.getString("touchscreenWebSocket")!,
+                    flavor.getString("touchscreenWebSocket")!,
                 'isAudioEnabled': state.isEnabled.toString(),
                 'audioVolume': (state.volume / 100).toString(),
                 'displayRenderer': widget.type.resourcePath(),
                 'displayBinaryType': widget.type.binaryType(),
                 "displayWidth": displayState.adjustedSize.width.toString(),
-                "displayHeight":
-                displayState.adjustedSize.height.toString(),
+                "displayHeight": displayState.adjustedSize.height.toString(),
               };
 
               dispatchAnalyticsEvent(
                 eventName: "display_started",
                 props: config,
               );
+
               window.addEventListener('message', (event) {
                 var data = (event as MessageEvent).data;
                 if (data is String && data == "iframeReady") {
-                  window.postMessage(jsonEncode(config), '*');
+                  Util().sendJSCommand("config", config);
                 }
               });
             },

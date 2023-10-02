@@ -72,39 +72,48 @@
           }
           return;
         }
-        const config = JSON.parse(event.data);
 
-        audioWebsocketUrl = config.audioWebsocketUrl;
-        displayWebsocketUrl = config.displayWebsocketUrl;
-        gpsWebsocketUrl = config.gpsWebsocketUrl;
-        touchScreenWebsocketUrl = config.touchScreenWebsocketUrl;
-
-
-
-        setAudioEnabled(config.isAudioEnabled);
-        setAudioVolume(config.audioVolume);
-
-        displayRenderer = config.displayRenderer;
-        displayBinaryType = config.displayBinaryType;
-        displayWidth = config.displayWidth;
-        displayHeight = config.displayHeight;
-
-        if (document.readyState === "complete") {
-
-          if (!displaySocket) createDisplaySocket(displayWebsocketUrl, displayRenderer, displayBinaryType);
-          if (!gpsSocket) createGpsSocket(gpsWebsocketUrl);
-          if (!touchScreenSocket) createTouchScreenSocket(touchScreenWebsocketUrl);
-        } else {
-          document.addEventListener("DOMContentLoaded", function () {
-
-            if (!displaySocket) createDisplaySocket(displayWebsocketUrl, displayRenderer, displayBinaryType);
-            if (!gpsSocket) createGpsSocket(gpsWebsocketUrl);
-            if (!touchScreenSocket) createTouchScreenSocket(touchScreenWebsocketUrl);
-          });
+        if (event.data.includes("flutterCommand")) {
+          let commandPacket = JSON.parse(event.data);
+          switch (commandPacket.command) {
+            case "initSetup":
+              initSetup(data);
+              break;
+            case "config":
+              setConfig(commandPacket.data);
+              break;
+          }
         }
+
+
       },
       false
     );
+
+    function setConfig(config) {
+
+
+      audioWebsocketUrl = config.audioWebsocketUrl;
+      displayWebsocketUrl = config.displayWebsocketUrl;
+      gpsWebsocketUrl = config.gpsWebsocketUrl;
+      touchScreenWebsocketUrl = config.touchScreenWebsocketUrl;
+
+
+
+      setAudioEnabled(config.isAudioEnabled);
+      setAudioVolume(config.audioVolume);
+
+      displayRenderer = config.displayRenderer;
+      displayBinaryType = config.displayBinaryType;
+      displayWidth = config.displayWidth;
+      displayHeight = config.displayHeight;
+
+
+
+      if (!displaySocket) createDisplaySocket(displayWebsocketUrl, displayRenderer, displayBinaryType);
+      if (!gpsSocket) createGpsSocket(gpsWebsocketUrl);
+      if (!touchScreenSocket) createTouchScreenSocket(touchScreenWebsocketUrl);
+    }
 
 
 
@@ -248,7 +257,10 @@
     function log(string) {
       //console.log(string);
     }
-
+    function initSetup(config) {
+      console.log("initSetup");
+      console.log(config);
+    }
     window.addEventListener('load', function () {
       // Start the permission check and potentially start location updates
       checkPermissionAndStartUpdates();

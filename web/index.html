@@ -27,11 +27,7 @@
     <script>
         var serviceWorkerVersion = null;
     </script>
-    <script>
-        function createAudioContext() {
-            return new (window.AudioContext || window.webkitAudioContext)();
-        }
-    </script>
+
     <script src="flutter.js" defer></script>
 </head>
 
@@ -128,7 +124,7 @@
                     // Wait a few milliseconds so users can see the "zoooom" animation
                     // before getting rid of the "loading" div.
                     window.setTimeout(function () {
-                        //loading.remove();
+                        loading.remove();
                     }, 200);
                 });
         });

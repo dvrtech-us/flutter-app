@@ -3,7 +3,7 @@ let audioContext = null
 let audioSocket = null;
 let pcmPlayerNode = null;
 let gainNode = null;
-
+var audioWebsocketUrl;
 let isAudioEnabled;
 let audioVolume;
 
@@ -13,7 +13,7 @@ async function startAudioPlayback() {
     console.log('Before AudioContext start');
     audioContext = new AudioContext({ sampleRate: 48000, channels: 2, latencyHint: 'interactive' });
 
-    await audioContext.audioWorklet.addModule('pcmplayer-processor.js');
+    await audioContext.audioWorklet.addModule('audio-pcmplayer.js');
     console.log("starting audioContext");
 
     pcmPlayerNode = new AudioWorkletNode(audioContext, 'pcm-player-processor', { outputChannelCount: [2] });
@@ -79,3 +79,10 @@ function createAudioSocket(url) {
         };
     }
 }
+
+window.parent.addEventListener("click", function (e) {
+
+    if (pcmPlayerNode == null && isAudioEnabled) {
+        startAudioPlayback();
+    }
+});

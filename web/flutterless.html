@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: none;
+            z-index: 1;
+        }
+
+        #image {
+            width: 100%;
+            display: none;
+        }
+    </style>
+
+    <script src="reconnecting-websocket.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/gps-estimator.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/touch.js"></script>
+    <script src="js/gps.js"></script>
+    <script src="js/display.js"></script>
+</head>
+
+<body style="background-color: black;">
+    <div style="position: relative;" id="touchCapture">
+        <img id="image" style="touch-action: none;" />
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+
+        //get the config from local storage
+
+        var audioWebsocketUrl;
+        var displayWebsocketUrl;
+        var gpsWebsocketUrl;
+        var touchScreenWebsocketUrl;
+
+
+        var displaySocket;
+        var gpsSocket;
+        var touchScreenSocket;
+
+
+
+        var displayRenderer;
+        var displayBinaryType;
+        var displayWidth;
+        var displayHeight;
+        var displayRendererAdded = false;
+        var gpsEstimator;
+        var gpsRunning = false;
+        var config = JSON.parse(localStorage.getItem("config"));
+        processConfig(config);
+        initSockets();
+
+        window.parent.addEventListener(
+            "message",
+            (event) => {
+                if (event.data === "iframeReady") {
+                    return;
+                }
+                if (event.data.includes("touchScreenCommand")) {
+                    if (typeof touchScreenSocket != "undefined") {
+                        var command = event.data.replace('touchScreenCommand:', '');
+
+                        touchScreenSocket.send(command);
+                    }
+                    return;
+                }
+                const config = JSON.parse(event.data);
+                processConfig(config);
+
+                if (document.readyState === "complete") {
+                    initSockets();
+                } else {
+                    document.addEventListener("DOMContentLoaded", function () {
+                        initSockets();
+                    });
+                }
+            },
+            false
+        );
+
+
+
+
+
+
+        function log(string) {
+            //console.log(string);
+        }
+
+        window.addEventListener('load', function () {
+            // Start the permission check and potentially start location updates
+            checkPermissionAndStartUpdates();
+            window.parent.postMessage("iframeReady", "*");
+        })
+    </script>
+</body>
+
+</html>

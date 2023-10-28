@@ -56,19 +56,20 @@ class _IframeViewState extends State<DisplayView> with Logger {
             onPlatformViewCreated: (_) {
               final Map<String, dynamic> config = {
                 'audioWebsocketUrl': flavor.getString("audioWebSocket")!,
-                'displayWebsocketUrl':
-                flavor.getString("displayWebSocket")!,
+                'displayWebsocketUrl': flavor.getString("displayWebSocket")!,
                 'gpsWebsocketUrl': flavor.getString("gpsWebSocket")!,
                 'touchScreenWebsocketUrl':
-                flavor.getString("touchscreenWebSocket")!,
+                    flavor.getString("touchscreenWebSocket")!,
                 'isAudioEnabled': state.isEnabled.toString(),
                 'audioVolume': (state.volume / 100).toString(),
                 'displayRenderer': widget.type.resourcePath(),
                 'displayBinaryType': widget.type.binaryType(),
                 "displayWidth": displayState.adjustedSize.width.toString(),
-                "displayHeight":
-                displayState.adjustedSize.height.toString(),
+                "displayHeight": displayState.adjustedSize.height.toString(),
               };
+
+              //write the config to local storage
+              window.localStorage['config'] = jsonEncode(config);
 
               dispatchAnalyticsEvent(
                 eventName: "display_started",

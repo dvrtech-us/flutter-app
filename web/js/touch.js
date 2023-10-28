@@ -111,3 +111,31 @@ function buildTouchEvent(absMtSlot, absMtTrackingId, absMtPositionX, absMtPositi
     console.log(command);
     return command;
 }
+
+function handleMouseDown(event) {
+    let formattedEvent = buildTouchEvent(8, 13, event.clientX,
+        event.clientY, true);
+    touchScreenSocket.send(formattedEvent);
+    touchStartTime = new Date().getTime();
+}
+
+function handleMouseMove(event) {
+    console.log(event.buttons);
+    if (event.buttons === 1) { // Check if left mouse button is down
+        let formattedEvent = buildTouchEvent(1, 1, event.clientX,
+            event.clientY, true);
+        touchScreenSocket.send(formattedEvent);
+        touchStartTime = null;
+    }
+}
+
+function handleMouseUp(event) {
+    if (touchStartTime !== null) {
+        var touchEndTime = new Date().getTime();
+        touchStartTime = null
+        let formattedEvent = buildTouchEvent(8, -1, null,
+            null, true);
+        touchScreenSocket.send(formattedEvent);
+    }
+
+}

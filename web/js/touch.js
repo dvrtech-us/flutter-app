@@ -23,10 +23,6 @@ function createTouchScreenSocket(url) {
 //used for Flutterless.html
 
 
-var touchCapture = document.getElementById('touchCapture');
-touchCapture.addEventListener('touchstart', handleTouchStart, false);
-touchCapture.addEventListener('touchmove', handleTouchMove, { passive: false });
-touchCapture.addEventListener('touchend', handleTouchEnd, false);
 
 var xDown = null;
 var yDown = null;
@@ -56,10 +52,10 @@ function handleTouchMove(event) {
     console.log(formattedEvent);
 }
 
-function scaleXandYToDisplaySize(x, y) {
+function scaleXYToDisplaySize(x, y) {
 
-    var xScale = displayWidth / image.width;
-    var yScale = displayHeight / image.height;
+    let xScale = displayWidth / image.width;
+    let yScale = displayHeight / image.height;
     x = x * xScale;
     y = y * yScale;
     return [x, y];
@@ -70,7 +66,7 @@ function handleTouchEnd(event) {
 
     if (touchStartTime !== null) {
         var touchEndTime = new Date().getTime();
-        var touchDuration = touchEndTime - touchStartTime;
+
         touchStartTime = null
         let formattedEvent = buildTouchEvent(8, -1, null,
             null, true);
@@ -91,7 +87,7 @@ function handleTouchEnd(event) {
 function buildTouchEvent(absMtSlot, absMtTrackingId, absMtPositionX, absMtPositionY, synReport = false) {
 
 
-    var command = '';
+    let command = '';
     if (absMtSlot != null) command += 's ' + absMtSlot + '\n';
     if (absMtTrackingId != null) {
         command += 'T ' + absMtTrackingId + '\n';
@@ -103,11 +99,10 @@ function buildTouchEvent(absMtSlot, absMtTrackingId, absMtPositionX, absMtPositi
     }
     if (absMtPositionX != null && absMtPositionY != null) {
         console.log(absMtPositionX + ' ' + absMtPositionY)
-        var scaledXY = scaleXandYToDisplaySize(absMtPositionX, absMtPositionY);
-        absMtPositionX = scaledXY[0];
-        absMtPositionY = scaledXY[1];
-        absMtPositionX = parseInt(absMtPositionX);
-        absMtPositionY = parseInt(absMtPositionY);
+        let scaledXY = scaleXYToDisplaySize(absMtPositionX, absMtPositionY);
+        absMtPositionX = parseInt(scaledXY[0]);
+        absMtPositionY = parseInt(scaledXY[1]);
+
     }
 
     if (absMtPositionX != null) command += 'X ' + absMtPositionX + '\n';

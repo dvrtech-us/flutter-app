@@ -109,7 +109,13 @@
             // Start the permission check and potentially start location updates
             checkPermissionAndStartUpdates();
             window.parent.postMessage("iframeReady", "*");
+            var touchCapture = document.getElementById('touchCapture');
+            touchCapture.addEventListener('touchstart', handleTouchStart, false);
+            touchCapture.addEventListener('touchmove', handleTouchMove, { passive: false });
+            touchCapture.addEventListener('touchend', handleTouchEnd, false);
         })
+
+
     </script>
 </body>
 

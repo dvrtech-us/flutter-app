@@ -22,6 +22,14 @@ class TaAppBar extends StatelessWidget
       centerTitle: false,
       title: Text(title ?? ''),
       actions: [
+        OutlinedButton(
+            onPressed: () {
+              window.location.href = "/flutterless.html";
+            },
+            child: Text("Try MCU2 Light Mode")),
+        SizedBox(
+          width: 10,
+        ),
         if (!(window.location.hostname?.contains("fullscreen") ?? false))
           Padding(
             padding: const EdgeInsets.all(8.0),

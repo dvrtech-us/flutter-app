@@ -23,14 +23,11 @@ function createTouchScreenSocket(url) {
 //used for Flutterless.html
 
 
+let touchStartTime = null;
 
-var xDown = null;
-var yDown = null;
-
-var touchStartTime = null;
 function handleTouchStart(event) {
-    xDown = event.touches[0].clientX;
-    yDown = event.touches[0].clientY;
+    let xDown = event.touches[0].clientX;
+    let yDown = event.touches[0].clientY;
     console.log('touchstart');
     touchStartTime = new Date().getTime();
     let formattedEvent = buildTouchEvent(8, 13, xDown,
@@ -42,7 +39,7 @@ function handleTouchStart(event) {
 
 function handleTouchMove(event) {
     event.preventDefault();
-    var touch = event.touches[0];
+    let touch = event.touches[0];
 
 
     let formattedEvent = buildTouchEvent(1, 1, touch.clientX,
@@ -65,7 +62,6 @@ function handleTouchEnd(event) {
     console.log('touchend');
 
     if (touchStartTime !== null) {
-        var touchEndTime = new Date().getTime();
 
         touchStartTime = null
         let formattedEvent = buildTouchEvent(8, -1, null,
@@ -112,6 +108,7 @@ function buildTouchEvent(absMtSlot, absMtTrackingId, absMtPositionX, absMtPositi
     return command;
 }
 
+//technically only used for testing on a desktop. 
 function handleMouseDown(event) {
     let formattedEvent = buildTouchEvent(8, 13, event.clientX,
         event.clientY, true);
@@ -131,7 +128,7 @@ function handleMouseMove(event) {
 
 function handleMouseUp(event) {
     if (touchStartTime !== null) {
-        var touchEndTime = new Date().getTime();
+
         touchStartTime = null
         let formattedEvent = buildTouchEvent(8, -1, null,
             null, true);

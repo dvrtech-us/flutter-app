@@ -103,18 +103,29 @@
         var gpsEstimator;
         var gpsRunning = false;
         var config = JSON.parse(localStorage.getItem("config"));
+        if (config == null) {
+            config = getDefaultConfig();
+        }
         processConfig(config);
         initSockets();
 
 
-        document.onreadystatechange = function () {
-            if (document.readyState === "complete") {
-                const config = JSON.parse(event.data);
-                processConfig(config);
-                initSockets();
-            }
-        };
 
+        function getDefaultConfig() {
+            defaultConfig = {
+                "audioWebsocketUrl": "wss://device.teslaandroid.com/sockets/audio",
+                "displayWebsocketUrl": "https://device.teslaandroid.com/stream",
+                "gpsWebsocketUrl": "wss://device.teslaandroid.com/sockets/gps",
+                "touchScreenWebsocketUrl": "wss://device.teslaandroid.com/sockets/touchscreen",
+                "isAudioEnabled": "false",
+                "audioVolume": "1",
+                "displayRenderer": "imgTag",
+                "displayBinaryType": "blob",
+                "displayWidth": "1088",
+                "displayHeight": "832"
+            }
+            return defaultConfig;
+        }
 
 
 

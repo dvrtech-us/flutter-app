@@ -46,7 +46,7 @@ function handleTouchMove(event) {
         touch.clientY, true);
     touchScreenSocket.send(formattedEvent);
     touchStartTime = null;
-    console.log(formattedEvent);
+    //console.log(formattedEvent);
 }
 
 function scaleXYToDisplaySize(x, y) {
@@ -104,7 +104,7 @@ function buildTouchEvent(absMtSlot, absMtTrackingId, absMtPositionX, absMtPositi
     if (absMtPositionX != null) command += 'X ' + absMtPositionX + '\n';
     if (absMtPositionY != null) command += 'Y ' + absMtPositionY + '\n';
     if (synReport) command += 'e 0\nS 0\n';
-    console.log(command);
+    //console.log(command);
     return command;
 }
 

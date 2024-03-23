@@ -7,6 +7,96 @@ import 'package:tesla_android/feature/releaseNotes/model/version.dart';
 class ReleaseNotesRepository {
   static const ReleaseNotes _releaseNotes = ReleaseNotes(versions: [
     Version(
+      versionName: "2024.9.1",
+      changelogItems: [
+        ChangelogItem(
+          title: "Android Platform",
+          shortDescription: "Security improvements",
+          descriptionMarkdown:
+          "The platform has been updated to the latest Android 14 release",
+        ),
+      ],
+    ),
+    Version(
+      versionName: "2023.48.2",
+      changelogItems: [
+        ChangelogItem( 
+          title: "SSL certificate reneval",
+          shortDescription: "Bugfix",
+          descriptionMarkdown:
+          "The SSL certificate for the frontend expired on 09.02.2024. It has been renewed for another 90 days",
+        ),
+      ],
+    ),
+    Version(
+      versionName: "2023.48.1",
+      changelogItems: [
+        ChangelogItem(
+          title: "Wi-Fi Hotspot",
+          shortDescription: "Bugfix",
+          descriptionMarkdown:
+          "Some users unintentionally disabled the Hotspot without using a 3rd party router. The ability to disable the broadcasting has been removed in this version since it does not make a lot of sense with the current networking setup that does not rely on using a public IP range in the DHCP server.",
+        ),
+        ChangelogItem(
+          title: "Android Platform",
+          shortDescription: "Security improvements",
+          descriptionMarkdown:
+          "The platform has been updated to the latest Android 13 release",
+        ),
+      ],
+    ),
+    Version(
+      versionName: "2023.45.1",
+      changelogItems: [
+        ChangelogItem(
+          title: "SSL certificate reneval",
+          shortDescription: "Bugfix",
+          descriptionMarkdown:
+          "The SSL certificate for the frontend expired on 11.11.2023. It has been renewed for another 90 days",
+        ),
+        ChangelogItem(
+          title: "Offline mode",
+          shortDescription: "Bugfix",
+          descriptionMarkdown:
+          "This version includes a fix for offline mode for cars running 2023.38.x or newer",
+        ),
+        ChangelogItem(
+          title: "Android Platform",
+          shortDescription: "Security improvements",
+          descriptionMarkdown:
+          "The platform has been updated to the latest Android 13 release",
+        ),
+      ],
+    ),
+    Version(
+      versionName: "2023.42.1",
+      changelogItems: [
+        ChangelogItem(
+          title: "Graphics and codecs",
+          shortDescription: "Performance improvements",
+          descriptionMarkdown:
+          "The transition to updated GPU backend and optimised video codecs is now complete. Those changes improve the overall performance of the system",
+        ),
+        ChangelogItem(
+          title: "Android Platform",
+          shortDescription: "Security improvements",
+          descriptionMarkdown:
+          "The platform has been updated to the latest Android 13 release with October 2023 security patches", 
+        ),
+      ],
+    ),
+    Version(
+      versionName: "2023.41.100",
+      changelogItems: [
+        ChangelogItem(
+          title: "NVMe support",
+          shortDescription: "Performance improvements",
+          descriptionMarkdown:
+          "NVMe drives are now supported on the Compute Module 4",
+        ),
+      ],
+    ),
+    Version(
       versionName: "2023.40.2",
       changelogItems: [
         ChangelogItem(
